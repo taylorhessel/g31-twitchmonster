@@ -1,0 +1,27 @@
+#main-wrapper {
+  width: 100vw;
+  height: 100vh;
+}
+#stream-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  float: left;
+  width: 80vw;
+  height: 100vh;
+  background-color: hsla(0, 0%, 3%, 1);
+}
+#chat-wrapper {
+  float: right;
+  width: 20vw;
+  height: 100vh;
+  background-color: hsla(0, 0%, 6%, 1);
+}
+#site-description {
+  width: 40vw;
+  color: white;
+}
+#welcome-form {
+  width: 100%;
+}
