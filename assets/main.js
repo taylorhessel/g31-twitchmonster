@@ -1,20 +1,29 @@
-$(() => {
-  //PROOF OF CONCEPT, TESTING STUFF
-  let channel = '';
-  let video = '';
-  let videoContainer = 'test';
+// https://api.twitch.tv/kraken/streams/' + 'dota2ti'
 
-  $.get('https://api.twitch.tv/kraken/streams/' + channel, (data) => {
-    if (data.stream){
-      console.log('CHANNEL IS LIVE');
-      console.log(data);
-    } else if (data.stream === null){
-      console.log('CHANNEL IS OFFLINE');
-      console.log(data);
-    } else {
-      console.log('You entered a channel that does not exist.');
-    }
+$(() => {
+
+  $('#welcome-form').on('submit', (e) => {
+    e.preventDefault();
+    let channel = $('#welcome-form').find('input').val();
   });
+
+  $('.channel-input').on('keyup', (e) => {
+    delay(() => {
+      $.get('https://api.twitch.tv/kraken/streams/' + $(e.target).val(), (data) => {
+        if ($(e.target).val() !== '' && data.stream !== null) {
+          $(e.target).parent().find('span').addClass('icon glyphicon glyphicon-ok');
+        }
+      });
+    }, 400);
+  });
+
+  let delay = (() => {
+    let timer = 0;
+    return function(callback, ms){
+      clearTimeout (timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
 
   function createPlayer(channel, video, videoContainer) {
     let playerScript = "<script type='text/javascript'>\
