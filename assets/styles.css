@@ -1,3 +1,6 @@
+html {
+  font-size: 16px;
+}
 #main-wrapper {
   width: 100vw;
   height: 100vh;
@@ -24,4 +27,20 @@
 }
 #welcome-form {
   width: 100%;
+}
+.channel-input {
+  display: inline;
+  margin-bottom: 1em;
+  border-radius: 4px 0 0 4px;
+  border: 1px solid transparent;
+}
+.icon {
+  display: inline;
+  background-color: white;
+  border-radius: 0 4px 4px 0;
+  padding: 9px;
+  top: 2px;
+}
+.glyphicon-ok {
+  color: green;
 }
