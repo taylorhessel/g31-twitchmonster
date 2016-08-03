@@ -31,16 +31,25 @@ html {
 .channel-input {
   display: inline;
   margin-bottom: 1em;
-  border-radius: 4px 0 0 4px;
+  border-radius: 4px;
   border: 1px solid transparent;
 }
+.input-wrapper {
+  position: relative;
+}
 .icon {
+  position: absolute;
   display: inline;
   background-color: white;
   border-radius: 0 4px 4px 0;
-  padding: 9px;
+  padding: 4px;
   top: 2px;
+  right: 4px;
+  font-size: 1.5em;
 }
 .glyphicon-ok {
   color: green;
+}
+.glyphicon-remove {
+  color: red;
 }
