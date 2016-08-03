@@ -11,10 +11,30 @@ $(() => {
     delay(() => {
       $.get('https://api.twitch.tv/kraken/streams/' + $(e.target).val(), (data) => {
         if ($(e.target).val() !== '' && data.stream !== null) {
-          $(e.target).parent().find('span').addClass('icon glyphicon glyphicon-ok');
+          $(e.target).parent()
+            .find('span')
+            .removeClass('glyphicon-remove')
+            .addClass('glyphicon-ok')
+        } else if (data.stream === null) {
+          $(e.target).parent()
+            .find('span')
+            .removeClass('glyphicon-ok')
+            .addClass('glyphicon-remove')
+        } else {
+          $(e.target).parent()
+            .find('span')
+            .removeClass('glyphicon-remove glyphicon-ok')
+        }
+      })
+      .fail((data) => {
+        if ($(e.target).val() !== '') {
+          $(e.target).parent()
+            .find('span')
+            .removeClass('glyphicon-ok')
+            .addClass('glyphicon-remove')
         }
       });
-    }, 400);
+    }, 500);
   });
 
   let delay = (() => {
