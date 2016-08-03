@@ -1,10 +1,20 @@
-// https://api.twitch.tv/kraken/streams/' + 'dota2ti'
-
 $(() => {
 
-  $('#welcome-form').on('submit', (e) => {
+  $('form').on('submit', (e) => {
+    let vWidth = window.innerWidth;
+    let vHeight = window.innerHeight;
     e.preventDefault();
-    let channel = $('#welcome-form').find('input').val();
+    let streams = [];
+    $('.valid').each((i, el) => {
+      let $channelName = $(el);
+      streams.push($channelName.val());
+    });
+    let streamCount = streams.length;
+    $('#site-description').animate({opacity: 0}, 300, () => {
+      $('#site-description').remove();
+      $('body').append(createPlayer(streams[0], vWidth * 0.8, vHeight, 'stream-wrapper'));
+      $('#chat-wrapper').append(createChat(streams[0], vWidth * 0.2, vHeight));
+    });
   });
 
   $('.channel-input').on('keyup', (e) => {
@@ -15,15 +25,18 @@ $(() => {
             .find('span')
             .removeClass('glyphicon-remove')
             .addClass('glyphicon-ok')
+          $(e.target).addClass('valid');
         } else if (data.stream === null) {
           $(e.target).parent()
             .find('span')
             .removeClass('glyphicon-ok')
             .addClass('glyphicon-remove')
+          $(e.target).removeClass('valid');
         } else {
           $(e.target).parent()
             .find('span')
             .removeClass('glyphicon-remove glyphicon-ok')
+          $(e.target).removeClass('valid');
         }
       })
       .fail((data) => {
@@ -34,7 +47,7 @@ $(() => {
             .addClass('glyphicon-remove')
         }
       });
-    }, 500);
+    }, 300);
   });
 
   let delay = (() => {
@@ -45,27 +58,30 @@ $(() => {
     };
   })();
 
-  function createPlayer(channel, video, videoContainer) {
+  function createPlayer(channel, width, height, streamContainer) {
     let playerScript = "<script type='text/javascript'>\
                            let options = {\
-                               width: 854,\
-                               height: 480,\
+                               width: " + width + ",\
+                               height: " + height + ",\
                                channel: '" + channel + "',\
-                               video: '" + video + "',\
                            };\
-                           let player = new Twitch.Player('" + videoContainer + "', options);\
+                           let player = new Twitch.Player('" + streamContainer + "', options);\
                            player.setVolume(0.5);\
                        </script>";
+
+    return playerScript;
   }
 
-  function createChat(channel) {
+  function createChat(channel, width, height) {
     let chatScript = "<iframe frameborder='0'\
                          scrolling='no'\
                          id='chat_embed'\
                          src='http://www.twitch.tv/" + channel + "/chat'\
-                         height='200'\
-                         width='854'>\
+                         width=" + width + "\
+                         height=" + height + ">\
                      </iframe>"
+
+    return chatScript;
   }
 
 });

@@ -30,12 +30,12 @@ html {
 }
 .channel-input {
   display: inline;
-  margin-bottom: 1em;
   border-radius: 4px;
   border: 1px solid transparent;
 }
 .input-wrapper {
   position: relative;
+  margin-bottom: 1em;
 }
 .icon {
   position: absolute;
