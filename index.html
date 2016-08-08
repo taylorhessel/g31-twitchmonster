@@ -12,18 +12,20 @@
 <body>
     <main id="main-wrapper">
       <section id="stream-wrapper">
-        <div id="site-description">
+        <div id="welcome">
           <h1>TwitchMonster</h1>
-          <p>
-            TwitchMonster is an app designed to enhance the twitch.tv viewing experience.  With TwitchMonster, you aren't
-            limited to watching just one stream at a time.  Simply enter the channels you'd like to watch in the form
-            below and hit watch!
+          <p id="welcome-description">
+            TwitchMonster is an app designed to enhance the Twitch viewing experience.  With TwitchMonster, you aren't
+            limited to watching just one stream at a time.  You can watch up to four!  Simply enter the names of the channels you'd like to watch and click watch!
           </p>
-          <form id="welcome-form" action="" method="POST">
+          <form id="welcome-form" action="" method="POST" autocomplete="off">
             <div class="input-wrapper">
-              <input type="text" name="stream-1" id="stream-1" class="form-control channel-input" placeholder="Enter a channel name here" autofocus><span class="icon glyphicon"></span>
+              <input type="text" name="channel-0" id="channel-0" class="form-control channel-input" placeholder="Enter a channel name here" autofocus><span class="icon glyphicon"></span>
             </div>
-            <input type="submit" name="Watch" id="welcome-watch" class="form-control btn-primary btn">
+            <div id="welcome-form-additional-inputs"></div>
+            <p id="error"></p>
+            <button type="button" id="add-stream" class="btn-primary btn">Add Stream</button>
+            <input type="submit" name="welcome-submit" id="welcome-submit" class="btn-primary btn" value="Watch">
           </form>
         </div>
       </section>
