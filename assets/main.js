@@ -49,7 +49,7 @@ $(() => {
             .addClass('glyphicon-remove invalid')
         }
       });
-    }, 300);
+    }, 500);
   });
 
   //DELAY USED WITH DYNAMIC VALIDATION
@@ -76,7 +76,7 @@ $(() => {
       $('#welcome').animate({opacity: 0}, 300, () => {
         $('#welcome').remove();
         for (stream in onlineStreams) {
-          $('#stream-wrapper').append('<div id="stream-' + stream + '" class="aspect-1"></div>');
+          $('#stream-wrapper').append('<div id="stream-' + stream + '" class="full-width full-height"></div>');
           $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.8, vHeight, 'stream-' + stream));
           $('#chat-wrapper').append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight));
         }
@@ -85,7 +85,7 @@ $(() => {
       $('#welcome').animate({opacity: 0}, 300, () => {
         $('#welcome').remove();
         for (stream in onlineStreams) {
-          $('#stream-wrapper').append('<div id="stream-' + stream + '" class="aspect-2"></div>');
+          $('#stream-wrapper').append('<div id="stream-' + stream + '" class="full width half-height"></div>');
           if (stream == 0) {
             $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.8, vHeight * 0.5, 'stream-' + stream));
             //$('#chat-wrapper').append(createChat(onlineStreams[0], vWidth * 0.2, vHeight));
@@ -95,6 +95,41 @@ $(() => {
           }
         }
       });
+    } else if (onlineCount === 3) {
+      $('#welcome').animate({opacity: 0}, 300, () => {
+        $('#welcome').remove();
+        $('#stream-wrapper').css('display', 'block');
+        for (stream in onlineStreams) {
+          if (stream == 0) {
+            $('#stream-wrapper').append('<div id="stream-' + stream + '" class="full-width half-height left"></div>');
+            $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.8, vHeight * 0.5, 'stream-' + stream));
+            //$('#chat-wrapper').append(createChat(onlineStreams[0], vWidth * 0.2, vHeight));
+          } else {
+            $('#stream-wrapper').append('<div id="stream-' + stream + '" class="half-width half-height right"></div>');
+            $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.4, vHeight * 0.5, 'stream-' + stream, true));
+            //$('#chat-wrapper').append(createChat(onlineStreams[0], vWidth * 0.2, vHeight));
+          }
+        }
+      });
+    } else if (onlineCount === 4) {
+        $('#welcome').animate({opacity: 0}, 300, () => {
+          $('#welcome').remove();
+          $('#stream-wrapper').css('display', 'block');
+          for (stream in onlineStreams) {
+            if (stream == 0) {
+              $('#stream-wrapper').append('<div id="stream-' + stream + '" class="half-width half-height left"></div>');
+              $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.4, vHeight * 0.5, 'stream-' + stream));
+            } else if (stream == 2) {
+              $('#stream-wrapper').append('<div id="stream-' + stream + '" class="half-width half-height left"></div>');
+              $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.4, vHeight * 0.5, 'stream-' + stream, true));
+              //$('#chat-wrapper').append(createChat(onlineStreams[0], vWidth * 0.2, vHeight));
+            } else {
+              $('#stream-wrapper').append('<div id="stream-' + stream + '" class="half-width half-height right"></div>');
+              $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.4, vHeight * 0.5, 'stream-' + stream, true));
+              //$('#chat-wrapper').append(createChat(onlineStreams[0], vWidth * 0.2, vHeight));
+            }
+          }
+        });
     } else { //ERROR HANDLING
       $('#error')
         .addClass('text-danger')
@@ -103,6 +138,28 @@ $(() => {
         .delay(3000)
         .fadeOut(500)
     }
+  });
+
+	$(window).resize(() => {
+    let $allVideos = $("iframe[src^='https://player.twitch.tv']");
+    let $fluidEl = $("#stream-wrapper");
+		let newWidth = Math.floor($fluidEl.width());
+    let newWidthHalf = Math.floor($fluidEl.width() * 0.5);
+    let newHeight = Math.floor($fluidEl.height());
+    let newHeightHalf = Math.floor($fluidEl.height() * 0.5);
+    $allVideos.each((i, el) => {
+			let $el = $(el);
+      if ($el.closest('div').hasClass('half-height')) {
+			  $el.height(newHeightHalf);
+      } else {
+        $el.height(newHeight);
+      }
+      if ($el.closest('div').hasClass('half-width')) {
+        $el.width(newWidthHalf);
+      } else {
+        $el.width(newWidth);
+      }
+		});
   });
 
   //ADD PLAYER SCRIPT
@@ -116,7 +173,6 @@ $(() => {
                let player = new Twitch.Player('" + streamContainer + "', options);\
                player.setVolume(0.5);\
                player.setMuted(" + muted + ");\
-               console.log(" + muted + ");\
            </script>";
   }
 
@@ -142,4 +198,4 @@ $(() => {
             </div>"
   }
 
-});
+}).resize();
