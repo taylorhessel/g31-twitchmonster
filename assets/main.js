@@ -12,6 +12,17 @@ $(() => {
     }
   });
 
+  // ADD CHANNEL INPUT AND REMOVE BUTTON HTML
+  function addInput(streamCounter) {
+    return "<div class='added-input-row group'>\
+              <div class='added-input-wrapper'>\
+                <input type='text' name='channel-" + streamCounter + "' id='channel-" + streamCounter + "'class='form-control channel-input added-input' placeholder='Enter a channel name here'>\
+                <span class='icon glyphicon'></span>\
+              </div>\
+              <button type='button' class='remove-stream btn-primary btn glyphicon glyphicon-remove'></button>\
+            </div>"
+  }
+
   //REMOVE CHANNEL INPUT
   $('form').on('click', '.remove-stream', (e) => {
     $(e.target).closest('.added-input-row').remove();
@@ -78,6 +89,7 @@ $(() => {
         for (stream in onlineStreams) {
           $('#stream-wrapper').append('<div id="stream-' + stream + '" class="full-width full-height"></div>');
           $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.8, vHeight, 'stream-' + stream));
+          $('#chat-wrapper').addClass('single-chat');
           $('#chat-wrapper').append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight));
         }
       });
@@ -88,14 +100,14 @@ $(() => {
           $('#stream-wrapper').append('<div id="stream-' + stream + '" class="full width half-height"></div>');
           if (stream == 0) {
             $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.8, vHeight * 0.5, 'stream-' + stream));
-            $('.nav-tabs').append('<li role="trigger" class="active"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + onlineStreams[stream] + '</a></li>');
+            $('.nav-pills').append('<li role="trigger" class="active"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + truncate(onlineStreams[stream], 7) + '</a></li>');
             $('.tab-content').append('<div role="tabpanel" class="tab-pane active" id="' + onlineStreams[stream] + '"></div>');
-            $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight));
+            $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight - 40));
           } else {
             $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.8, vHeight * 0.5, 'stream-' + stream, true));
-            $('.nav-tabs').append('<li role="trigger"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + onlineStreams[stream] + '</a></li>');
+            $('.nav-pills').append('<li role="trigger"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + truncate(onlineStreams[stream], 7) + '</a></li>');
             $('.tab-content').append('<div role="tabpanel" class="tab-pane" id="' + onlineStreams[stream] + '"></div>');
-            $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight));
+            $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight - 40));
           }
         }
       });
@@ -107,15 +119,15 @@ $(() => {
           if (stream == 0) {
             $('#stream-wrapper').append('<div id="stream-' + stream + '" class="full-width half-height left"></div>');
             $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.8, vHeight * 0.5, 'stream-' + stream));
-            $('.nav-tabs').append('<li role="trigger" class="active"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + onlineStreams[stream] + '</a></li>');
+            $('.nav-pills').append('<li role="trigger" class="active"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + truncate(onlineStreams[stream], 7) + '</a></li>');
             $('.tab-content').append('<div role="tabpanel" class="tab-pane active" id="' + onlineStreams[stream] + '"></div>');
-            $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight));
+            $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight - 40));
           } else {
             $('#stream-wrapper').append('<div id="stream-' + stream + '" class="half-width half-height right"></div>');
             $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.4, vHeight * 0.5, 'stream-' + stream, true));
-            $('.nav-tabs').append('<li role="trigger"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + onlineStreams[stream] + '</a></li>');
+            $('.nav-pills').append('<li role="trigger"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + truncate(onlineStreams[stream], 7) + '</a></li>');
             $('.tab-content').append('<div role="tabpanel" class="tab-pane" id="' + onlineStreams[stream] + '"></div>');
-            $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight));
+            $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight - 40));
           }
         }
       });
@@ -127,21 +139,21 @@ $(() => {
             if (stream == 0) {
               $('#stream-wrapper').append('<div id="stream-' + stream + '" class="half-width half-height left"></div>');
               $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.4, vHeight * 0.5, 'stream-' + stream));
-              $('.nav-tabs').append('<li role="trigger" class="active"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + onlineStreams[stream] + '</a></li>');
+              $('.nav-pills').append('<li role="trigger" class="active"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + truncate(onlineStreams[stream], 7) + '</a></li>');
               $('.tab-content').append('<div role="tabpanel" class="tab-pane active" id="' + onlineStreams[stream] + '"></div>');
-              $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight));
+              $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight - 40));
             } else if (stream == 2) {
               $('#stream-wrapper').append('<div id="stream-' + stream + '" class="half-width half-height left"></div>');
               $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.4, vHeight * 0.5, 'stream-' + stream, true));
-              $('.nav-tabs').append('<li role="trigger"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + onlineStreams[stream] + '</a></li>');
+              $('.nav-pills').append('<li role="trigger"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + truncate(onlineStreams[stream], 7) + '</a></li>');
               $('.tab-content').append('<div role="tabpanel" class="tab-pane" id="' + onlineStreams[stream] + '"></div>');
-              $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight));
+              $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight - 40));
             } else {
               $('#stream-wrapper').append('<div id="stream-' + stream + '" class="half-width half-height right"></div>');
               $('body').append(createPlayer(onlineStreams[stream], vWidth * 0.4, vHeight * 0.5, 'stream-' + stream, true));
-              $('.nav-tabs').append('<li role="trigger"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + onlineStreams[stream] + '</a></li>');
+              $('.nav-pills').append('<li role="trigger"><a href="#' + onlineStreams[stream] + '" aria-controls="' + onlineStreams[stream] + '" role="tab" data-toggle="tab">' + truncate(onlineStreams[stream], 7) + '</a></li>');
               $('.tab-content').append('<div role="tabpanel" class="tab-pane" id="' + onlineStreams[stream] + '"></div>');
-              $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight));
+              $('#' + onlineStreams[stream]).append(createChat(onlineStreams[stream], vWidth * 0.2, vHeight - 40));
             }
           }
         });
@@ -155,18 +167,27 @@ $(() => {
     }
   });
 
+  //TRUNCATE
+  function truncate(str, length) {
+    return str.length > length ? str.substring(0, length) : str
+  }
+
   //RESIZE ON RESIZE
   $(window).resize(() => {
 
-    let $allVideos = $("iframe[src^='https://player.twitch.tv']");
-    let $streamWrap = $("#stream-wrapper");
-		let newStreamWidth = Math.floor($streamWrap.width());
-    let newStreamWidthHalf = Math.floor($streamWrap.width() * 0.5);
-    let newStreamHeight = Math.floor($streamWrap.height());
-    let newStreamHeightHalf = Math.floor($streamWrap.height() * 0.5);
+    let $allVideos = $('iframe[src^="https://player.twitch.tv"]');
+    let $allChats = $('iframe[src^="https://www.twitch.tv"]');
+    let $streamWrapper = $('#stream-wrapper');
+    let $chatWrapper = $('#chat-wrapper');
+    let newChatWidth = Math.floor($chatWrapper.width());
+    let newChatHeight = Math.floor($chatWrapper.height());
+    let newMultiChatHeight = Math.floor($chatWrapper.height() - 40);
+		let newStreamWidth = Math.floor($streamWrapper.width());
+    let newStreamWidthHalf = Math.floor($streamWrapper.width() * 0.5);
+    let newStreamHeight = Math.floor($streamWrapper.height());
+    let newStreamHeightHalf = Math.floor($streamWrapper.height() * 0.5);
 
     $allVideos.each((i, el) => {
-
 			let $el = $(el);
 
       if ($el.closest('div').hasClass('half-height')) {
@@ -180,8 +201,19 @@ $(() => {
       } else {
         $el.width(newStreamWidth);
       }
-
 		});
+
+    $allChats.each((i, el) => {
+      let $el = $(el);
+
+      if ($el.closest('section').hasClass('single-chat')) {
+        $el.width(newChatWidth);
+        $el.height(newChatHeight);
+      } else {
+        $el.width(newChatWidth);
+        $el.height(newMultiChatHeight);
+      }
+    });
 
   });
 
@@ -211,20 +243,9 @@ $(() => {
   }
 
   //CHAT TAB CLICK LISTENER
-  $('.nav-tabs a').click(function (e) {
+  $('.nav-pills a').click(function (e) {
     e.preventDefault()
     $(this).tab('show')
   });
-
-  // ADD CHANNEL INPUT AND REMOVE BUTTON
-  function addInput(streamCounter) {
-    return "<div class='added-input-row group'>\
-              <div class='added-input-wrapper'>\
-                <input type='text' name='channel-" + streamCounter + "' id='channel-" + streamCounter + "'class='form-control channel-input added-input' placeholder='Enter a channel name here'>\
-                <span class='icon glyphicon'></span>\
-              </div>\
-              <button type='button' class='remove-stream btn-primary btn glyphicon glyphicon-remove'></button>\
-            </div>"
-  }
 
 }).resize();
