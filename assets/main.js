@@ -32,24 +32,30 @@ $(() => {
   //DYNAMICALLY VALIDATE CHANNEL NAMES AND STREAM STATUS
   $('form').on('keyup', '.channel-input', (e) => {
     delay(() => {
-      $.get('https://api.twitch.tv/kraken/streams/' + $(e.target).val(), (data) => {
-        if ($(e.target).val() !== '' && data.stream !== null) {
-          $(e.target).parent()
-            .find('span')
-            .removeClass('glyphicon-remove invalid')
-            .addClass('glyphicon-ok valid')
-          $(e.target).addClass('online');
-        } else if (data.stream === null) {
-          $(e.target).parent()
-            .find('span')
-            .removeClass('glyphicon-ok valid')
-            .addClass('glyphicon-remove invalid')
-          $(e.target).removeClass('online');
-        } else {
-          $(e.target).parent()
-            .find('span')
-            .removeClass('glyphicon-remove glyphicon-ok')
-          $(e.target).removeClass('online');
+      $.get({
+        url: 'https://api.twitch.tv/kraken/streams/' + $(e.target).val(),
+        headers: {
+          'Client-ID': '0p0ljbg3k0co51gq664048e0gff8yw'
+        },
+        success: function(data) {
+          if ($(e.target).val() !== '' && data.stream !== null) {
+            $(e.target).parent()
+              .find('span')
+              .removeClass('glyphicon-remove invalid')
+              .addClass('glyphicon-ok valid')
+            $(e.target).addClass('online');
+          } else if (data.stream === null) {
+            $(e.target).parent()
+              .find('span')
+              .removeClass('glyphicon-ok valid')
+              .addClass('glyphicon-remove invalid')
+            $(e.target).removeClass('online');
+          } else {
+            $(e.target).parent()
+              .find('span')
+              .removeClass('glyphicon-remove glyphicon-ok')
+            $(e.target).removeClass('online');
+          }
         }
       })
       .fail((data) => {
